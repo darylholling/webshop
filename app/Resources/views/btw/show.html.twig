@@ -1,0 +1,27 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <h1>Btw</h1>
+
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ btw.id }}</td>
+        </tr>
+        <tr>
+            <th>Procent</th>
+            <td>{{ btw.procent }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-warning" href="{{ path('btw_index') }}">Back to the list</a><br>
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-info" href="{{ path('btw_edit', { 'id': btw.id }) }}">Edit</a>
+    {% endif %}
+    {{ form_start(delete_form) }}
+    <input class="btn btn-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+{% endblock %}

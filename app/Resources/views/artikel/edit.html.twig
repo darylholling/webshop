@@ -1,0 +1,15 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <h1>Artikel edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input class="btn btn-success" type="submit" value="Save" />
+    {{ form_end(edit_form) }}
+
+            <a class="btn btn-warning" href="{{ path('artikel_index') }}">Back to the list</a>
+            {{ form_start(delete_form) }}
+                <input class="btn btn-danger" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+{% endblock %}

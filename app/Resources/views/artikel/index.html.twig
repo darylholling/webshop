@@ -1,0 +1,31 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('artikel_new') }}">
+            Create a new artikel <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+
+    <h1 class="center" style="margin-left: 5%;">Product list</h1>
+
+
+    <div class="container">
+        <div class="row">
+            {% for artikel in artikels %}
+                <div class="col-lg-3 col-md-4 col-sm-6 center productarea card">
+                    <a href="{{ path('artikel_show', {'id': artikel.id}) }}"><img
+                                src="{{ asset('uploads/images/' ~ artikel.img) }}" width="250" height="185"></a>
+                    {{ artikel.name | capitalize }}<br>
+                    €{{ artikel.prijs }}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-info w4-5 mcenter" href="{{ path('artikel_edit', { 'id': artikel.id }) }}">Edit</a>
+                        <a class="btn btn-success w4-5 mcenter" href="{{ path('cart_add', { 'id': artikel.id }) }}">Add to cart</a>
+                    {% else %}
+                        <a class="btn btn-success w4-5 mcenter" href="{{ path('cart_add', { 'id': artikel.id }) }}">Add to cart</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

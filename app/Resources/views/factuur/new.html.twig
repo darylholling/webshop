@@ -1,0 +1,12 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <h1>Factuur creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-success" type="submit" value="Create" />
+    {{ form_end(form) }}
+
+            <a class="btn btn-warning" href="{{ path('factuur_index') }}">Back to the list</a>
+{% endblock %}

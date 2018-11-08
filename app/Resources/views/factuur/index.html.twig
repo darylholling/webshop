@@ -1,0 +1,54 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('factuur_new') }}">
+            Create a new factuur <i class="fa fa-plus-square"></i></a>
+
+        <h1>Facturen Overzicht</h1>
+    {% else %}
+
+        <h1>Mijn Facturen</h1>
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Factuurnummer</th>
+            <th>Opmerking</th>
+            <th>Betaald</th>
+            <th>Datum</th>
+            <th>User</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for factuur in factuurs %}
+            {% if (factuur.customerId == app.user) or is_granted("ROLE_ADMIN") %}
+
+                {#TODO Zorgen dat de h1 afgespeeld wordt wanneer de user geen facturen heeft.#}
+                {#{% if app.user != factuurs %}#}
+                {#<h1>U heeft geen facturen!</h1>#}
+                {#{% else %}#}
+
+                <tr>
+                    <td><a href="{{ path('factuur_show', { 'id': factuur.id }) }}">{{ factuur.id }}</a></td>
+                    <td>{{ factuur.opmerking }}</td>
+                    <td>{{ factuur.betaald }}</td>
+                    <td>{{ factuur.timestamp|date('d-m-Y') }}</td>
+                    <td>{{ factuur.customerId }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('factuur_show', { 'id': factuur.id }) }}">show</a>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <a class="btn btn-info" href="{{ path('factuur_edit', { 'id': factuur.id }) }}">edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {#{% endif %}#}
+            {% endif %}
+
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

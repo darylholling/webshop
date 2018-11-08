@@ -1,0 +1,41 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('product_history_new') }}">
+            Create a new product history <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+    <h1>Product_histories list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Factuurnummer</th>
+            <th>Artikel</th>
+            <th>Aantal</th>
+            <th>Naam</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product_history in product_histories %}
+            <tr>
+                <td>
+                    <a href="{{ path('product_history_show', { 'id': product_history.id }) }}">{{ product_history.id }}</a>
+                </td>
+                <td>{{ product_history.factuurId | capitalize }}</td>
+                <td>{{ product_history.artikelId }}</td>
+                <td>{{ product_history.aantal }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('product_history_show', { 'id': product_history.id }) }}">show</a>
+                    <a class="btn btn-info"
+                       href="{{ path('product_history_edit', { 'id': product_history.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

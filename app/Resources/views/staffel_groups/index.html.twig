@@ -1,0 +1,36 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('staffel_groups_new') }}">
+            Create a new staffel group <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+    <h1>Staffel_groups list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for staffel_group in staffel_groups %}
+            <tr>
+                <td><a href="{{ path('staffel_groups_show', { 'id': staffel_group.id }) }}">{{ staffel_group.id }}</a>
+                </td>
+                <td>{{ staffel_group.name }}</td>
+                <td>
+                    <a class="btn btn-primary"
+                       href="{{ path('staffel_groups_show', { 'id': staffel_group.id }) }}">show</a>
+                    <a class="btn btn-info"
+                       href="{{ path('staffel_groups_edit', { 'id': staffel_group.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

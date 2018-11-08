@@ -1,0 +1,24 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <h1>Staffel_group</h1>
+
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ staffel_group.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ staffel_group.name }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-warning" href="{{ path('staffel_groups_index') }}">Back to the list</a>
+    <a class="btn btn-info" href="{{ path('staffel_groups_edit', { 'id': staffel_group.id }) }}">Edit</a>
+    {{ form_start(delete_form) }}
+    <input class="btn btn-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+{% endblock %}

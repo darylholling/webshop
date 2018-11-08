@@ -1,0 +1,22 @@
+{% extends '@Shop/base.html.twig' %}
+{% block body %}
+    {% set cart = app.session.get('cart') %}
+    {% set total = 0 %}
+    {% set count = 0 %}
+
+    {% if product %}
+        {% for key, item in cart %}
+            {% for row in product %}
+                {% if row.id == key %}
+                    {% set total = total + (row.prijs * item) %}
+                    {% set count = count + item %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <a href="{{ path('cart') }}">
+        <button type="button" class="btn btn-info pull-right">Shopping Cart <span class="badge"> {{ count }}
+                item(s)</span> €{{ total | number_format(2) }} </button>
+    </a>
+{% endblock %}

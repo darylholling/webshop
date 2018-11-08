@@ -1,0 +1,32 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <h1>Staffel_korting</h1>
+
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ staffel_korting.id }}</td>
+        </tr>
+        <tr>
+            <th>Minaantal</th>
+            <td>{{ staffel_korting.minAantal }}</td>
+        </tr>
+        <tr>
+            <th>Maxaantal</th>
+            <td>{{ staffel_korting.maxAantal }}</td>
+        </tr>
+        <tr>
+            <th>Korting</th>
+            <td>{{ staffel_korting.korting }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-warning" href="{{ path('staffel_korting_index') }}">Back to the list</a>
+    <a class="btn btn-info" href="{{ path('staffel_korting_edit', { 'id': staffel_korting.id }) }}">Edit</a>
+    {{ form_start(delete_form) }}
+    <input class="btn btn-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+{% endblock %}

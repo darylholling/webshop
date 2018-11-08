@@ -1,0 +1,51 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('fos_user_registration_register') }}">
+            Nieuwe gebruiker aanmaken <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+    <h1>Users list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Naam</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Laatst actief</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</a></td>
+                <td>{{ user.username | capitalize}}</td>
+                <td>{{ app.user.email| capitalize }}</td>
+                <td>
+                    {#{% for role in user.roles %}#}
+                        {#{{ role }}#}
+                    {#{% endfor %}#}
+                    {{ user.roles | join (" &  ") | lower }}
+                </td>
+                <td>{{ app.user.lastlogin|date('d-m-Y') }}</td>
+                <td>
+                    <a href="{{ path('role_action', { 'id': user.id }) }}">
+                        <button type="button" class="btn btn-xs btn-warning">
+                            {% if user.roles[0] == 'ROLE_SUPER_ADMIN' %}
+                                Remove Admin
+                            {% else %}
+                                Make Admin
+                            {% endif %}
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

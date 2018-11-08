@@ -1,0 +1,38 @@
+{% extends '@Shop/base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+    {% if app.user %}
+        <div class="alreadylogin">
+            <h1>U bent al ingelogd</h1>
+            <p><a class="btn btn-default" href="/" role="button">Ga naar de homepage &raquo;</a></p>
+        </div>
+    {% else %}
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="space">
+            <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                <div class="login-container">
+                    <h1>Login to Your Account</h1><br>
+                    <form>
+                        <label for="username">{{ 'Username'|trans }}</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}"
+                               required="required"/>
+                        <label for="password">{{ 'Password'|trans }}</label>
+                        <input type="password" id="password" name="_password" required="required"/>
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                        <label for="remember_me">{{ 'Remember me'|trans }}</label>
+                        <input type="submit" class="login login-submit" id="_submit" name="_submit"
+                               value="{{ 'Sign In'|trans }}"/>
+                    </form>
+                    <div class="login-help">
+                        <a href="{{ path('fos_user_resetting_request') }}">Forgot Password</a>
+                    </div>
+                </div>
+            </form>
+        <h1 class="center"><a class="btn btn-info" href="{{ path('fos_user_registration_register') }}">Nog geen account? Registreer
+                hier!</a></h1>
+        </div>
+    {% endif %}
+{% endblock body %}

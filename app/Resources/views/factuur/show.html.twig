@@ -1,0 +1,142 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if (factuur.customerId == app.user) %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="invoice-title">
+                        <h2>Factuur </h2>
+                        <h3 class="pull-right float-right">Nummer: {{ factuur.id }}</h3>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <address>
+                                <strong>Billed To:</strong><br>
+                                {{ factuur.customerId |capitalize }}<br>
+                                {{ app.user.email |capitalize }}
+                            </address>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Payment Method:</strong><br>
+                            <br>
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col-xs-6">
+                            <strong>Order Date:</strong><br>
+                            {{ factuur.timestamp| date('d-m-Y') }}<br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Order summary</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>Product</strong></td>
+                                        <td class="text-left"><strong>Prijs per stuk</strong></td>
+                                        <td class="text-center"><strong>BTW</strong></td>
+                                        <td class="text-center"><strong>Aantal</strong></td>
+                                        <td class="text-right"><strong>Totaalprijs</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                    {% set gentot = 0 %}
+                                    {% set prijszonderbtw = 0 %}
+                                    {% set btwhoeveelheid = 0 %}
+                                    {% set eindbedrag = 0 %}
+                                    {% set btw = 0 %}
+                                    {% for regel in regels %}
+
+                                        <tr>
+                                            <td>{{ regel.artikelId }}</td>
+                                            {% set totaal = regel.aantal %}
+                                            <td>
+                                                {% for product in products %}
+                                                    {% set p = regel.artikelId %}
+                                                    {% if p.id == product.id %}
+                                                        €{{ product.prijs|number_format(2) }}
+                                                        {% set totaal = (totaal * product.prijs) %}
+                                                        {% set btw = product.btwId %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+
+                                            <td class="text-center">{{ btw }}</td>
+                                            <td class="text-center">{{ regel.aantal }}</td>
+                                            <td class="text-right">€{{ totaal|number_format(2) }}</td>
+                                            {% set gentot = (gentot + totaal) %}
+                                            {% set prijszonderbtw = gentot|number_format(2) / 100 * 79 %}
+                                            {% set btwhoeveelheid = (gentot / 100) * 21 %}
+                                            {% set eindbedrag = gentot - factuur.betaald %}
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center"><strong>Subtotal</strong></td>
+                                        <td class="thick-line text-right">€ {{ prijszonderbtw|number_format(2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line text-center"><strong>Btw</strong></td>
+                                        <td class="no-line text-right">€ {{ btwhoeveelheid|number_format(2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line text-center"><strong>Totaal</strong></td>
+                                        <td class="no-line text-right">€ {{ gentot|number_format(2) }}</td>
+                                    </tr>
+                                    <tr style="border-top: 2px solid;">
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line text-center"><strong>Betaald</strong></td>
+                                        <td class="no-line text-right">€ {{ factuur.betaald }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line"></td>
+                                        <td class="no-line text-center"><strong>Totaal te betalen</strong></td>
+                                        <td class="no-line text-right">€ {{ eindbedrag|number_format(2) }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="btn btn-warning" href="{{ path('factuur_index') }}">Back to the list</a><br>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-info" href="{{ path('factuur_edit', { 'id': factuur.id }) }}">Edit</a>
+            {{ form_start(delete_form) }}
+            <input class="btn btn-danger" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        {% endif %}
+    {% else %}
+        <h2>Deze factuur is van andere klant.</h2>
+    {% endif %}
+{% endblock %}

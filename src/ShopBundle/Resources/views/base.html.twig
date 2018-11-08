@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Croco Shop | Levende croco's tekoop!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/shop/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/shop/css/main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0 white">
+        Hallo {{ app.user | capitalize }}
+    </a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a class="nav-link" href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out-alt"></i>
+                    Logout</a>
+            {% else %}
+                <a class="nav-link" href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-out-alt"></i>
+                    Login</a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fa fa-home"></i>
+                            Home <span class="sr-only"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('artikel_index') }}">
+                            <i class="fa fa-box-open"></i>
+                            Producten
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('factuur_index') }}">
+                            <i class="fa fa-receipt"></i>
+                            Facturen
+                        </a>
+                    </li>
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('category_index') }}">
+                            <i class="fa fa-tags"></i>
+                            Categoriën
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('btw_index') }}">
+                            <i class="fa fa-money-bill"></i>
+                            BTW
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('product_history_index') }}">
+                            <i class="fa fa-history"></i>
+                            Product History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('staffel_groups_index') }}">
+                            <i class="fa fa-object-group"></i>
+                            Staffel Groepen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('staffel_korting_index') }}">
+                            <i class="fa fa-less-than"></i>
+                            Staffel Kortingen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_index') }}">
+                            <i class="fa fa-users"></i>
+                            Gebruikers
+                        </a>
+                    {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('cart') }}">
+                            <i class="fa fa-shopping-cart"></i>
+                            Winkelwagen
+                        </a>
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"></div>
+            <h1 class="center logo">
+                <u>
+                    |CrocoShop|
+                </u>
+
+            </h1>
+
+
+            {% block body %}
+
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+{% block javascripts %}{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="{{ asset('bundles/shop/js/bootstrap.min.js') }}"></script>
+</body>
+</html>

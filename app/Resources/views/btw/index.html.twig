@@ -1,0 +1,33 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('btw_new') }}">
+            Create a new Btw-group <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+    <h1>Btws list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Percentage</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for btw in btws %}
+            <tr>
+                <td><a href="{{ path('btw_show', { 'id': btw.id }) }}">{{ btw.id }}</a></td>
+                <td>{{ btw.procent }}%</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('btw_show', { 'id': btw.id }) }}">show</a>
+                    <a class="btn btn-info" href="{{ path('btw_edit', { 'id': btw.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

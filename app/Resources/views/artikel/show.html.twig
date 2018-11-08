@@ -1,0 +1,47 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    <div class="container topspace">
+        <div class="row">
+            <div class="h-col-xs-12 h-col-md-10 h-col-md-offset-2 pdr">
+                <div class="h-container h-card z-pdp-gallery vertical h-align-left">
+                    <img src="{{ asset('uploads/images/' ~ artikel.img) }}" width="500">
+                </div>
+                <div class="leftbottom">
+                    <div class="image">
+                        <img src="{{ asset('uploads/images/' ~ artikel.img) }}" width="75" height="75">
+                        <img src="{{ asset('uploads/images/' ~ artikel.img) }}" width="75" height="75">
+                    </div>
+                </div>
+            </div>
+            <div class="h-col-xs-12 h-col-md-10 h-col-md-offset-2 pdl">
+                <div class="h-container h-card z-pdp-gallery vertical h-align-left">
+                    <h1 class="title">
+                        {{ artikel.name }}
+                    </h1>
+                    <div class="price">
+                        <b>
+                            €{{ artikel.prijs }}
+                        </b><i style="font-size: 12px;">inclusief btw</i>
+                    </div>
+                    <div class="description">
+                        <p>
+                            {{ artikel.omschrijving }}
+                        </p>
+                    </div>
+                    <div class="cart">
+                        <a class="btn btn-info wfull mcenter" href="{{ path('artikel_edit', { 'id': artikel.id }) }}">Add to cart</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a class="btn btn-warning" href="{{ path('artikel_index') }}">Back to the list</a><br>
+        <a class="btn btn-info" href="{{ path('artikel_edit', { 'id': artikel.id }) }}">Edit</a>
+        {{ form_start(delete_form) }}
+        <input class="btn btn-danger" type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+    {% endif %}
+{% endblock %}

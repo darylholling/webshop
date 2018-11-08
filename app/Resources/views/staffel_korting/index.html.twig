@@ -1,0 +1,40 @@
+{% extends '@Shop/base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a class="btn btn-success center newartikel" href="{{ path('staffel_korting_new') }}">
+            Create a new staffel korting <i class="fa fa-plus-square"></i></a>
+    {% endif %}
+    <h1>Staffel_kortings list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Minaantal</th>
+            <th>Maxaantal</th>
+            <th>Korting</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for staffel_korting in staffel_kortings %}
+            <tr>
+                <td>
+                    <a href="{{ path('staffel_korting_show', { 'id': staffel_korting.id }) }}">{{ staffel_korting.id }}</a>
+                </td>
+                <td>{{ staffel_korting.minAantal }}</td>
+                <td>{{ staffel_korting.maxAantal }}</td>
+                <td>{{ staffel_korting.korting }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('staffel_korting_show', { 'id': staffel_korting.id }) }}">show</a>
+                    <a class="btn btn-info"
+                       href="{{ path('staffel_korting_edit', { 'id': staffel_korting.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

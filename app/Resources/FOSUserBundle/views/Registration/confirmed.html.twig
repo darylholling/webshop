@@ -1,0 +1,15 @@
+{% extends "@Shop/base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+    <h1 class="center topspace">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</h1>
+    {% if targetUrl %}
+        <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+    <div class=" center topspace options">
+
+        <a class="btn btn-primary" href="{{ path('artikel_index') }}">Klik hier om verder te shoppen!</a>
+        <a class="btn btn-success" href="{{ path('cart') }}">Klik hier om uw order te bevestigen!</a>
+    </div>
+{% endblock %}
